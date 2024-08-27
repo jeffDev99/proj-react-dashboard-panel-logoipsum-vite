@@ -2,7 +2,7 @@
 
 .main-header {
   background-color: #ffffff;
-  padding: 1rem 1.5rem;
+  padding: .5rem 1.5rem;
   border-bottom: 2px solid #ebebec;
 }
 .main-header__title{
@@ -24,6 +24,16 @@
 
 .main-header-text{
   margin: 0 0 0 1rem;
+}
+.main-header__left-link{
+  text-decoration: none;
+  border-radius: 35px;
+  transition:.2s ease-in-out all;
+  padding: .5rem;
+}
+
+.main-header__left-link:hover{
+  background-color: var(--e-global-color-pale-blue);
 }
 .main-header-text__title{
   color: var(--e-global-color-black);

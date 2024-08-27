@@ -75,7 +75,7 @@ export default function MissingData() {
         }).then((result) => {
           setInputValues({});
           setErrors({});
-        }); 
+        });
       } else if (error.code === "ERR_BAD_RESPONSE" || error.code === "ETIMEDOUT") {
         Swal.fire({
           icon: "error",
