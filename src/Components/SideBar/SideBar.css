@@ -1,0 +1,109 @@
+aside {
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--e-global-color-white);
+  border-right: 1px solid var(--e-global-border-color);
+}
+.aside-header {
+  padding: 24px 40px 40px;
+}
+.outer-container {
+  min-height: 100vh;
+}
+
+.dashboard-aside-nav {
+  position: static;
+  background-color: #fff;
+  /* transition: 0.2s ease-in all; */
+}
+.aside-list {
+  display: flex;
+  flex-direction: column;
+}
+.aside-list__link {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  display: flex;
+  position: relative;
+  transition: all 0.2s ease-in;
+  border-radius: 12px;
+  padding: 1rem;
+  font-size: 14px;
+  display: block;
+  color: var(--e-global-color-gray);
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+.aside-list__link:hover {
+  background-color: var(--e-global-color-pale-blue);
+  color: var(--e-global-color-blue);
+}
+
+.aside-list a.active {
+  background-color: var(--e-global-color-pale-blue);
+  color: var(--e-global-color-blue);
+  position: relative;
+}
+
+.aside-list a.active::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  border-radius: 12px;
+  right: 103%;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  background-color: var(--e-global-color-blue);
+  transition: 0.2s ease-in all;
+}
+.aside-list__image {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+@media screen and (max-width: 992px) {
+  aside {
+    min-height: auto;
+  }
+  .dashboard-aside-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    padding: 0.5rem 13px 12px;
+  }
+  .aside-list {
+    flex-direction: row;
+    overflow: auto;
+    overflow-y: hidden;
+  }
+  .aside-list__link {
+    display: flex;
+  flex-wrap: wrap;
+    flex-direction: column;
+    padding: 0.25rem 0.5rem;
+    font-size: 10px;
+    justify-content: center;
+    text-align: center;
+  }
+  .aside-list__image {
+    margin: 0;
+  }
+
+  .aside-list a.active::before {
+    content: " ";
+    position: absolute;
+    border-radius: 12px;
+    right: 0%;
+    top: 115%;
+    width: 50px;
+    height: 100%;
+    background-color: var(--e-global-color-blue);
+    transition: 0.2s ease-in all;
+  }
+}

@@ -1,0 +1,34 @@
+body{
+    background-color:var(--e-global-color-background);
+}
+.authLayout-header__icon{
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    left: 2.5rem;
+    top: 2.5rem;
+}
+.authLayout-header__link{
+    color: var(--e-global-color-black);
+}
+.authLayout-main{
+    width: 100%;
+    min-height: calc(100vh - 10rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5rem;
+}
+
+@media screen  and (max-width:992px){
+.authLayout-main{
+    padding: 3rem 1.5rem;
+}
+.authLayout-header__icon{
+    width: 24px;
+    height: 24px;
+    left: 1.5rem;
+    top: 1.5rem;
+}
+}

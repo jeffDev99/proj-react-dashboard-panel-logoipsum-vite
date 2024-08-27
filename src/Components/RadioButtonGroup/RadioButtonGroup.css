@@ -1,0 +1,26 @@
+.radio-group-label {
+  border-radius: 8px;
+  padding: 14px 34px;
+  border: 1px solid #000;
+  transition: ease-in-out all 0.2s;
+  display: "block";
+  margin-bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  background-color: var(--e-global-color-pale-gray);
+  border-color:var(--e-global-color-gray) ;
+  color:var(--e-global-color-gray) ;
+  background-color: #F2F3F4A3;
+}
+.radio-group-input {
+  display: none;
+}
+
+.button.outline{
+    color: var(--e-global-color-blue);
+}
+.radio-group-label.active{
+    background-color: var(--e-global-color-blue);
+    color: var(--e-global-color-white);
+    border-color:var(--e-global-color-blue) ;
+}

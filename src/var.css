@@ -1,0 +1,11 @@
+:root{
+    --e-global-color-blue: #007DFC;
+    --e-global-color-white: #ffffff;
+    --e-global-color-black: #101828;
+    --e-global-color-gray: #98A2B3;
+    --e-global-color-pale-black: #344054;
+    --e-global-color-pale-gray: #D0D5DD;
+    --e-global-color-background: #F7F8FA;
+    --e-global-color-pale-blue: #EFF6FF;
+    --e-global-border-color: #D0D5DD;
+}

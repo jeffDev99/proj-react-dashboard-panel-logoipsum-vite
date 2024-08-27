@@ -1,0 +1,25 @@
+.button{
+    border-radius: 8px;
+    padding: 14px 34px;
+    border: 1px solid #000;
+    transition: ease-in-out all .2s;
+}
+.button.text{
+    background-color: transparent;
+    color: var(--e-global-color-gray);
+}
+.button.outline{
+    background-color: var(--e-global-color-pale-blue);
+    color: var(--e-global-color-blue);
+    border-color:var(--e-global-color-blue) ;
+}
+.button.primary{
+    background-color: var(--e-global-color-blue);
+    color: var(--e-global-color-white);
+    border-color:var(--e-global-color-blue) ;
+}
+@media screen and (max-width : 992px) {
+    .button{
+        padding: 11px;
+    }    
+}
