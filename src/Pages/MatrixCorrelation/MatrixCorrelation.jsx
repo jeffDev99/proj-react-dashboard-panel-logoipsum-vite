@@ -9,6 +9,8 @@ export default function MatrixCorrelation() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileName, setFileName] = useState("use only xlsx or csv format");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUpload, setIsUpload] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [fileData, setFileData] = useState(null);
   const fileInputRef = useRef();
 
@@ -20,6 +22,7 @@ export default function MatrixCorrelation() {
   };
 
   const handleUpload = async () => {
+    
     if (!selectedFile) {
       Swal.fire({
         icon: "warning",
@@ -32,6 +35,7 @@ export default function MatrixCorrelation() {
     formData.append("original_file", selectedFile);
     const token = Cookies.get("authToken");
     try {
+      setLoading(true);
       const response = await axios.post("https://django-7v4p0n.chbk.run/api/matrix-correlation/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -45,12 +49,14 @@ export default function MatrixCorrelation() {
       });
       if (response.status === 200) {
         setFileData(response.data);
+        setIsUpload(true);
         Swal.fire({
           icon: "success",
           title: "Upload Successful",
           text: "File uploaded successfully! You Can Download File From Download Button",
         });
       } else {
+        setIsUpload(false);
         Swal.fire({
           icon: "error",
           title: "Upload Failed",
@@ -75,7 +81,7 @@ export default function MatrixCorrelation() {
         }).then((result) => {
           setInputValues({});
           setErrors({});
-        }); 
+        });
       } else if (error.code === "ERR_BAD_RESPONSE" || error.code === "ETIMEDOUT") {
         Swal.fire({
           icon: "error",
@@ -96,6 +102,8 @@ export default function MatrixCorrelation() {
         });
       }
       console.error("Error uploading file:", error.code);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,6 +146,7 @@ export default function MatrixCorrelation() {
         setFileName("use only xlsx or csv format");
         setUploadProgress(0);
         setFileData(null);
+        setIsUpload(false);
         if (fileInputRef.current.value) {
           fileInputRef.current.value = ""; // This will reset the file input value : for chrome bug
         }
@@ -155,6 +164,7 @@ export default function MatrixCorrelation() {
           <form className="d-flex flex-column flex-lg-row">
             <Input type="file" ref={fileInputRef} name="missingDataFile" label={fileName} onInputChange={handleFileChange} isFileUploaded={uploadProgress == 100 ? true : false}></Input>
           </form>
+          {loading && <div className="loader"></div>}
           {uploadProgress > 0 && (
             <div style={{ marginTop: "20px" }}>
               <div style={{ width: "100%", backgroundColor: "#D0D5DD80", borderRadius: "42px" }}>
@@ -177,7 +187,7 @@ export default function MatrixCorrelation() {
         </div>
         <div className="col-12 col-lg-2"></div>
       </div>
-      <div className={uploadProgress == 100 ? "d-block" : "d-none"}>
+      <div className={isUpload ? "d-block" : "d-none"}>
         <div className="row">
           <div className="col-12 col-lg-6">
             <Button value="Cancel" variant="outline" className="ms-3" onBtnClick={handleCancelDownload}></Button>

@@ -9,6 +9,8 @@ export default function Register() {
   const [inputValues, setInputValues] = useState({});
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
 
   const englishRegex = /^[A-Za-z0-9]+$/;
   const validationSchema = Yup.object({
@@ -33,7 +35,7 @@ export default function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     try {
       await validationSchema.validate(inputValues, { abortEarly: false });
       setErrors({});
@@ -97,6 +99,9 @@ export default function Register() {
         }
       }
     }
+    finally{
+    setLoading(false);
+    }
   };
 
   return (
@@ -128,7 +133,8 @@ export default function Register() {
         <Input label="Email" name="email" value={inputValues.email || ""} onInputChange={handleInputChange} placeholder="balamia@gmail.com" type="email" error={errors.email} />
         <Input label="Mobile Number" name="phone" value={inputValues.phone || ""} onInputChange={handleInputChange} placeholder="09383013300" type="text" error={errors.phone} />
         <Input label="Display Name" name="dName" value={inputValues.dName || ""} onInputChange={handleInputChange} placeholder="amin" type="text" error={errors.dName} />
-        <Input value="Sign Up" type="submit" />
+        <Input value="Sign Up" type="submit"  disabled={loading} />
+        {loading && <div className="loader"></div>}
         <p className="login-form__register">
           Registered?
           <Link to={"/login"}> Login!</Link>

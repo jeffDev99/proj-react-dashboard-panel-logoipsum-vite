@@ -1,4 +1,4 @@
-import React, { useState , useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup"; // Import Yup
 import Swal from "sweetalert2";
@@ -8,17 +8,14 @@ import "./Login.css";
 
 export default function Login() {
   const [inputValues, setInputValues] = useState({});
-  const [errors, setErrors] = useState({}); // State for storing validation errors
+  const [errors, setErrors] = useState({}); 
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // تعریف اسکیما validation با استفاده از Yup
   const validationSchema = Yup.object({
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters long"),
-    email: Yup.string()
-      .required("Email is required")
-      .email("Invalid email address"),
+    password: Yup.string().required("Password is required").min(8, "Password must be at least 8 characters long"),
+    email: Yup.string().required("Email is required").email("Invalid email address"),
   });
 
   const handleInputChange = (name, value) => {
@@ -30,7 +27,7 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     try {
       // form validation with yup
       await validationSchema.validate(inputValues, { abortEarly: false });
@@ -70,15 +67,15 @@ export default function Login() {
         setErrors(validationErrors);
       } else {
         if (error.message === "400") {
-        Swal.fire({
-          icon: "error",
-          title: "There Is Some Error",
-          text: "Your Email Or Password Is Incorrect.",
-        }).then((result) => {
-          setInputValues({});
-          setErrors({});
-        });
-        }else if(error.message ==="Failed to fetch"){
+          Swal.fire({
+            icon: "error",
+            title: "There Is Some Error",
+            text: "Your Email Or Password Is Incorrect.",
+          }).then((result) => {
+            setInputValues({});
+            setErrors({});
+          });
+        } else if (error.message === "Failed to fetch") {
           Swal.fire({
             icon: "error",
             title: "Network Error",
@@ -87,7 +84,7 @@ export default function Login() {
             setInputValues({});
             setErrors({});
           });
-        }else{
+        } else {
           Swal.fire({
             icon: "error",
             title: "There Is Some Error",
@@ -99,6 +96,8 @@ export default function Login() {
         }
         console.error("Error:", error.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,30 +108,16 @@ export default function Login() {
       </figure>
       <form onSubmit={handleSubmit} className="login-form">
         <h2 className="login-form__header">Login to your account</h2>
-        <Input
-          label="Email"
-          name="email"
-          value={inputValues.email || ""}
-          onInputChange={handleInputChange}
-          placeholder="balamia@gmail.com"
-          type="email"
-          error={errors.email}
-        />
-        <Input
-          label="Password"
-          name="password"
-          value={inputValues.password || ""}
-          onInputChange={handleInputChange}
-          placeholder="Enter your password"
-          type="password"
-          error={errors.password}
-        />
-        <Input value="login" type="submit"></Input>
+        <Input label="Email" name="email" value={inputValues.email || ""} onInputChange={handleInputChange} placeholder="balamia@gmail.com" type="email" error={errors.email} />
+        <Input label="Password" name="password" value={inputValues.password || ""} onInputChange={handleInputChange} placeholder="Enter your password" type="password" error={errors.password} />
+        <Input value="Login" type="submit" disabled={loading}></Input>
+        {loading && <div className="loader"></div>}
         <p className="login-form__register">
           Not Registered?
           <Link to={"/register"}> Register!</Link>
         </p>
       </form>
+     
     </>
   );
 }

@@ -12,9 +12,11 @@ export default function MLMethods() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileName, setFileName] = useState("use only xlsx or csv format");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUpload, setIsUpload] = useState(false);
   const [fileData, setFileData] = useState(null);
   const fileInputRef = useRef();
   const [selectedValue, setSelectedValue] = useState("EDRVFL");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({}); // State for storing validation errors
 
   const handleRadioChange = (value) => {
@@ -40,6 +42,7 @@ export default function MLMethods() {
   };
 
   const handleUpload = async () => {
+    
     if (!selectedFile) {
       Swal.fire({
         icon: "warning",
@@ -53,6 +56,7 @@ export default function MLMethods() {
     formData.append("algorithm_name", selectedValue);
     const token = Cookies.get("authToken");
     try {
+      setLoading(true);
       const response = await axios.post("https://django-7v4p0n.chbk.run/api/ml/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -66,12 +70,14 @@ export default function MLMethods() {
       });
       if (response.status === 200) {
         setFileData(response.data);
+        setIsUpload(true)
         Swal.fire({
           icon: "success",
           title: "Upload Successful",
           text: "File uploaded successfully! You Can Download File From Download Button",
         });
       } else {
+        setIsUpload(false)
         Swal.fire({
           icon: "error",
           title: "Upload Failed",
@@ -113,6 +119,8 @@ export default function MLMethods() {
         });
       }
       console.error("Error uploading file:", error.code);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -171,6 +179,7 @@ export default function MLMethods() {
         setFileName("use only xlsx or csv format");
         setUploadProgress(0);
         setFileData(null);
+        setIsUpload(false)
         if (fileInputRef.current.value) {
           fileInputRef.current.value = ""; // This will reset the file input value : for chrome bug
         }
@@ -193,6 +202,7 @@ export default function MLMethods() {
           <form className="d-flex flex-column">
             <Input type="file" ref={fileInputRef} name="missingDataFile" label={fileName} onInputChange={handleFileChange} isFileUploaded={uploadProgress == 100 ? true : false}></Input>
           </form>
+          {loading && <div className="loader"></div>}
           {uploadProgress > 0 && (
             <div style={{ marginTop: "20px" }}>
               <div style={{ width: "100%", backgroundColor: "#D0D5DD80", borderRadius: "42px" }}>
@@ -215,7 +225,7 @@ export default function MLMethods() {
         </div>
         <div className="col-12 col-lg-2"></div>
       </div>
-      <div className={uploadProgress == 100 ? "d-block" : "d-none"}>
+      <div className={isUpload ? "d-block" : "d-none"}>
         <div className="row">
           <div className="col-12 col-lg-6">
             <Button value="Cancel" variant="outline" className="ms-3" onBtnClick={handleCancelDownload}></Button>

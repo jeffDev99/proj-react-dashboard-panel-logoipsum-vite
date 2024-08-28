@@ -6,12 +6,14 @@ import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import * as Yup from "yup"; // Import Yup
 import "./DetermineLags.css";
-// ! must add sweet alert and handle errors
+
 export default function DetermineLags() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileName, setFileName] = useState("use only xlsx or csv format");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUpload, setIsUpload] = useState(false);
   const [fileData, setFileData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef();
 
   const [inputValues, setInputValues] = useState({});
@@ -33,6 +35,7 @@ export default function DetermineLags() {
   };
 
   const handleUpload = async () => {
+    
     if (!selectedFile) {
       Swal.fire({
         icon: "warning",
@@ -47,6 +50,7 @@ export default function DetermineLags() {
     formData.append("number_of_future_steps", inputValues.number_of_future_steps);
     const token = Cookies.get("authToken");
     try {
+      setLoading(true);
       const response = await axios.post("https://django-7v4p0n.chbk.run/api/missing-data/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -60,12 +64,14 @@ export default function DetermineLags() {
       });
       if (response.status === 200) {
         setFileData(response.data);
+        setIsUpload(true);
         Swal.fire({
           icon: "success",
           title: "Upload Successful",
           text: "File uploaded successfully! You Can Download File From Download Button",
         });
       } else {
+        setIsUpload(false);
         Swal.fire({
           icon: "error",
           title: "Upload Failed",
@@ -111,6 +117,8 @@ export default function DetermineLags() {
         });
       }
       console.error("Error uploading file:", error.code);
+    } finally {
+      setLoading(false);
     }
   };
   const validateForm = () => {
@@ -168,6 +176,7 @@ export default function DetermineLags() {
         setFileName("use only xlsx or csv format");
         setUploadProgress(0);
         setFileData(null);
+        setIsUpload(false);
         if (fileInputRef.current.value) {
           fileInputRef.current.value = ""; // This will reset the file input value : for chrome bug
         }
@@ -205,6 +214,7 @@ export default function DetermineLags() {
               error={errors.number_of_future_steps}
             />
           </form>
+          {loading && <div className="loader"></div>}
           {uploadProgress > 0 && (
             <div style={{ marginTop: "20px" }}>
               <div style={{ width: "100%", backgroundColor: "#D0D5DD80", borderRadius: "42px" }}>
@@ -227,7 +237,7 @@ export default function DetermineLags() {
         </div>
         <div className="col-12 col-lg-2"></div>
       </div>
-      <div className={uploadProgress == 100 ? "d-block" : "d-none"}>
+      <div className={isUpload ? "d-block" : "d-none"}>
         <div className="row">
           <div className="col-12 col-lg-6">
             <Button value="Cancel" variant="outline" className="ms-3" onBtnClick={handleCancelDownload}></Button>
