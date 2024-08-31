@@ -238,9 +238,9 @@ export default function DetermineLags() {
         </div>
         <div className="col-12 col-lg-2"></div>
       </div>
-      <div className={isUpload ? "d-block" : "d-none"}>
-        <div className="row">
-          <div className="col-12 col-lg-6">
+      <div className={`pb-4 ${isUpload ? "d-block" : "d-none"}`}>
+        <div className="row flex-column-reverse flex-lg-row mt-3 mt-lg-0">
+          <div className="col-12 col-lg-6 mt-3 mt-lg-0">
             <Button value="Cancel" variant="outline" className="ms-3" onBtnClick={handleCancelDownload}></Button>
           </div>
           <div className="col-12 col-lg-6">

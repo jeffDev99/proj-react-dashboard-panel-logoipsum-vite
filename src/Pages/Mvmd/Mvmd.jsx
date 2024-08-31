@@ -65,14 +65,13 @@ export default function Mvmd() {
         });
       }
     } catch (error) {
+      console.log(error);
       if (error.code === "ERR_NETWORK") {
         Swal.fire({
           icon: "error",
           title: "Network Error",
           text: "Please Check Your Internet Connection.",
         }).then((result) => {
-          setInputValues({});
-          setErrors({});
         });
       } else if (error.code === "ERR_BAD_REQUEST") {
         Swal.fire({
@@ -80,8 +79,6 @@ export default function Mvmd() {
           title: "Input Error",
           text: "Please Check Your Excel File",
         }).then((result) => {
-          setInputValues({});
-          setErrors({});
         });
       } else if (error.code === "ERR_BAD_RESPONSE" || error.code === "ETIMEDOUT") {
         Swal.fire({
@@ -89,8 +86,6 @@ export default function Mvmd() {
           title: "ُServer Error",
           text: "Please Contact To Support",
         }).then((result) => {
-          setInputValues({});
-          setErrors({});
         });
       } else {
         Swal.fire({
@@ -98,8 +93,6 @@ export default function Mvmd() {
           title: "There Is Some Error",
           text: "Please Contact To Support.",
         }).then((result) => {
-          setInputValues({});
-          setErrors({});
         });
       }
       console.error("Error uploading file:", error.code);

@@ -84,7 +84,7 @@ aside {
   }
   .aside-list__link {
     display: flex;
-  flex-wrap: wrap;
+    flex-wrap: wrap;
     flex-direction: column;
     padding: 0.25rem 0.5rem;
     font-size: 10px;
@@ -94,16 +94,16 @@ aside {
   .aside-list__image {
     margin: 0;
   }
-
   .aside-list a.active::before {
     content: " ";
     position: absolute;
     border-radius: 12px;
-    right: 0%;
+    right: 50%;
     top: 115%;
     width: 50px;
     height: 100%;
     background-color: var(--e-global-color-blue);
     transition: 0.2s ease-in all;
+    transform: translateX(50%);
   }
 }
