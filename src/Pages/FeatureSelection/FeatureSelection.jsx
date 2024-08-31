@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import { mainUrl } from "../../helpers/constants/env-varaibles";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import Input from "../../Components/Input/Input";
@@ -52,7 +53,7 @@ export default function FeatureSelection() {
     const token = Cookies.get("authToken");
     try {
       setLoading(true);
-      const response = await axios.post("https://django-7v4p0n.chbk.run/api/feature-selection/", formData, {
+      const response = await axios.post(`${mainUrl}feature-selection/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

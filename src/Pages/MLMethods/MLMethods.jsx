@@ -6,8 +6,8 @@ import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import * as Yup from "yup"; // Import Yup
 import RadioButtonGroup from "../../Components/RadioButtonGroup/RadioButtonGroup";
+import { mainUrl } from "../../helpers/constants/env-varaibles";
 import "./MLMethods.css";
-// ! must add sweet alert and handle errors
 export default function MLMethods() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileName, setFileName] = useState("use only xlsx or csv format");
@@ -57,7 +57,7 @@ export default function MLMethods() {
     const token = Cookies.get("authToken");
     try {
       setLoading(true);
-      const response = await axios.post("https://django-7v4p0n.chbk.run/api/ml/", formData, {
+      const response = await axios.post(`${mainUrl}ml/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

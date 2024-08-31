@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
+import { mainUrl } from "../../helpers/constants/env-varaibles";
 import "./MissingData.css";
 export default function MissingData() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -35,7 +36,7 @@ export default function MissingData() {
     const token = Cookies.get("authToken");
     try {
       setLoading(true);
-      const response = await axios.post("https://django-7v4p0n.chbk.run/api/missing-data/", formData, {
+      const response = await axios.post(`${mainUrl}missing-data/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

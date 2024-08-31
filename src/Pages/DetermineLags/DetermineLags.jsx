@@ -6,6 +6,7 @@ import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import * as Yup from "yup"; // Import Yup
 import "./DetermineLags.css";
+import { mainUrl } from "../../helpers/constants/env-varaibles";
 
 export default function DetermineLags() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -51,7 +52,7 @@ export default function DetermineLags() {
     const token = Cookies.get("authToken");
     try {
       setLoading(true);
-      const response = await axios.post("https://django-7v4p0n.chbk.run/api/missing-data/", formData, {
+      const response = await axios.post(`${mainUrl}missing-data/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
