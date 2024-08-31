@@ -4,6 +4,7 @@ import * as Yup from "yup"; // Import Yup
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import Input from "../../Components/Input/Input";
+import { mainUrl } from "../../helpers/constants/env-varaibles";
 import "./Login.css";
 
 export default function Login() {
@@ -36,7 +37,7 @@ export default function Login() {
         password: inputValues.password,
         email: inputValues.email,
       };
-      const response = await fetch("https://django-7v4p0n.chbk.run/api/login/", {
+      const response = await fetch(`${mainUrl}login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

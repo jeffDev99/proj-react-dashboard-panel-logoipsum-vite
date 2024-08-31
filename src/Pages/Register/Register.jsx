@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup"; // Import Yup
+import { mainUrl } from "../../helpers/constants/env-varaibles";
 import Swal from "sweetalert2";
 import Input from "../../Components/Input/Input";
 import "./Register.css";
@@ -48,7 +49,7 @@ export default function Register() {
         display_name: inputValues.dName,
       };
 
-      const response = await fetch("https://django-7v4p0n.chbk.run/api/register/", {
+      const response = await fetch(`${mainUrl}register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
